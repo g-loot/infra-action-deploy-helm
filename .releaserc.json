@@ -1,0 +1,9 @@
+{
+  "plugins": [
+    "@semantic-release/commit-analyzer"
+  ],
+  "branches": [
+    "master"
+  ],
+  "tagFormat": "${version}"
+}
