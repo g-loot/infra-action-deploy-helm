@@ -1,31 +1,42 @@
-on:
-  push:
-    branches:
-      - master
+on: push
 
 jobs:
-  test_job:
-    runs-on: ubuntu-latest
-    name: test-job
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: test
-      uses: ./
-      with:
-        gcp_key: ${{ secrets.GCP_KEY }}
-        application_name: test-deploy
-        helm_args: "-f values.yaml --set image.tag=latest"
   publish-docker-image:
     runs-on: ubuntu-latest
-    name: publish?
+    name: Publish docker image
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-    - name: publish??
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_email: ${{ secrets.GCP_EMAIL }}
+        service_account_key: ${{ secrets.GCP_KEY }}
+    - run: gcloud auth configure-docker
+    - name: push to gcr and github
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         docker login docker.pkg.github.com -u g-loot -p $GITHUB_TOKEN
-        docker build . -t docker.pkg.github.com/g-loot/action-deploy-helm/deploy-helm:latest
+        docker build . -t docker.pkg.github.com/g-loot/action-deploy-helm/deploy-helm:latest -t gcr.io/gloot-automation/action-deploy-helm:latest
         docker push docker.pkg.github.com/g-loot/action-deploy-helm/deploy-helm:latest
+        docker push gcr.io/gloot-automation/action-deploy-helm:latest
+  test_job:
+    needs: publish-docker-image
+    runs-on: ubuntu-latest
+    name: Test deployment
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Deploy test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
+          application_name: test-deploy
+          helm_args: "-f values.yaml --set image.tag=latest"
+      - name: Purge test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
+          application_name: test-deploy
+          helm_command: "delete --purge $HELM_APPLICATION_NAME"
