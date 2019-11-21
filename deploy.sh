@@ -6,7 +6,6 @@ export PROJECT=$INPUT_PROJECT
 export CLUSTER=$INPUT_CLUSTER
 export GCS_HELM_REPO=$INPUT_GCS_HELM_REPO
 export HELM_VERSION=$INPUT_HELM_VERSION
-export HELM_APPLICATION_NAME=$INPUT_APPLICATION_NAME
 export HELM_ARGS=$INPUT_HELM_ARGS
 export HELM_COMMAND=$INPUT_HELM_COMMAND
 
@@ -16,7 +15,6 @@ echo $PROJECT
 echo $CLUSTER
 echo $GCS_HELM_REPO
 echo $HELM_VERSION
-echo $HELM_APPLICATION_NAME
 echo $HELM_ARGS
 echo $HELM_COMMAND
 echo -----
@@ -33,6 +31,10 @@ helm3 repo add gcs-repo $GCS_HELM_REPO
 helm3 repo update
 
 gcloud container clusters get-credentials $CLUSTER --zone $ZONE --project $PROJECT
+
+export RELEASE_NAME=$(/applicationName.sh "$HELM_ARGS" )
+
+echo "installing $RELEASE_NAME"
 
 if [ $HELM_VERSION == '2' ]
 then
