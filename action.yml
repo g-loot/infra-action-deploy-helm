@@ -1,0 +1,16 @@
+name: 'Deploy helm gloot'
+description: 'Deploy helm gloot'
+inputs:
+  variable:
+    description: 'desc'
+    required: false
+    default: 'v1.0.0'
+  another-variable:
+    description: '<groupdId>:<artifactId>'
+    required: true
+runs:
+  using: 'docker'
+  main: 'Dockerfile'
+  args:
+    - ${{ inputs.variable }}
+    - ${{ inputs.another-variable}}
