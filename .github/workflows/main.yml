@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test_job:
+    runs-on: ubuntu-latest
+    name: test-job
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: test
+      uses: ./
+      with:
+        gcp_key: ${{ secrets.GCP_KEY }}
+        application_name: test-deploy
+        helm_args: "-f values.yaml --set image.tag=latest"
+  publish-docker-image:
+    runs-on: ubuntu-latest
+    name: publish?
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: publish??
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        docker login docker.pkg.github.com -u g-loot -p $GITHUB_TOKEN
+        docker build . -t docker.pkg.github.com/g-loot/action-deploy-helm/deploy-helm:latest
+        docker push docker.pkg.github.com/g-loot/action-deploy-helm/deploy-helm:latest

@@ -1,0 +1,38 @@
+name: 'Deploy helm gloot'
+description: 'Deploy helm gloot'
+inputs:
+  gcp_key:
+    description: 'desc'
+    required: true
+  zone:
+    required: true
+    default: 'europe-west1-b'
+  project:
+    required: true
+    default: 'play-gll-gg'
+  cluster:
+    required: true
+    default: 'dev-gll-play'
+  gcs_helm_repo:
+    required: true
+    default: 'gs://gloot-charts'
+  helm_version:
+    required: true
+    default: '2'
+  application_name:
+    required: true
+  helm_args:
+    description: 'should look something like this: "-f /files/values.yaml --set image.tag=latest"'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.gcp_key }}
+    - ${{ inputs.zone }}
+    - ${{ inputs.project }}
+    - ${{ inputs.cluster }}
+    - ${{ inputs.gcs_helm_repo }}
+    - ${{ inputs.helm_version }}
+    - ${{ inputs.application_name }}
+    - ${{ inputs.helm_args }}
