@@ -1,7 +1,7 @@
 applicationName: "deployment-test"
 
 image:
-  repository: nginxdemos/hello
+  repository: nginxdemos/hell
   tag: stable
   pullPolicy: Always
 
