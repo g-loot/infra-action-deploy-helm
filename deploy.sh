@@ -8,6 +8,7 @@ export GCS_HELM_REPO=$INPUT_GCS_HELM_REPO
 export HELM_VERSION=$INPUT_HELM_VERSION
 export HELM_APPLICATION_NAME=$INPUT_APPLICATION_NAME
 export HELM_ARGS=$INPUT_HELM_ARGS
+export HELM_COMMAND=$INPUT_HELM_COMMAND
 
 echo -----
 echo $ZONE
@@ -17,17 +18,17 @@ echo $GCS_HELM_REPO
 echo $HELM_VERSION
 echo $HELM_APPLICATION_NAME
 echo $HELM_ARGS
+echo $HELM_COMMAND
 echo -----
 
 echo $GCP_KEY | base64 -d > /tmp/google_credentials.json
 gcloud auth activate-service-account --key-file /tmp/google_credentials.json
 
-helm2 init --client-only
-helm2 plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.2.0
+export HELM_HOME=/helm2home
 helm2 repo add gcs-repo $GCS_HELM_REPO
 helm2 repo update
 
-helm3 plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.2.0
+export XDG_DATA_HOME=/helm3home
 helm3 repo add gcs-repo $GCS_HELM_REPO
 helm3 repo update
 
@@ -35,10 +36,10 @@ gcloud container clusters get-credentials $CLUSTER --zone $ZONE --project $PROJE
 
 if [ $HELM_VERSION == '2' ]
 then
-  helm2 upgrade --atomic --wait --install $HELM_APPLICATION_NAME gcs-repo/gloot-application $(eval "array=($HELM_ARGS)"; for arg in "${array[@]}"; do echo "$arg"; done)
+  helm2 $(eval "array=($HELM_COMMAND)"; for arg in "${array[@]}"; do echo "$arg"; done)
 elif [ $HELM_VERSION == '3' ]
 then
-  helm3 upgrade --atomic --wait --install $HELM_APPLICATION_NAME gcs-repo/gloot-application $(eval "array=($HELM_ARGS)"; for arg in "${array[@]}"; do echo "$arg"; done)
+  helm3 $(eval "array=($HELM_COMMAND)"; for arg in "${array[@]}"; do echo "$arg"; done)
 else
   echo "helm version $VERSION unsupported"
   exit 1

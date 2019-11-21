@@ -5,13 +5,18 @@ RUN chmod +x get_helm.sh
 
 RUN ./get_helm.sh -v v2.15.2
 RUN mv /usr/local/bin/helm /usr/local/bin/helm2
+RUN mkdir /helm2home
+ENV HELM_HOME=/helm2home
 RUN helm2 init --client-only
+RUN helm2 plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.2.0
+RUN chmod 775 -R /helm2home
 
 RUN ./get_helm.sh -v v3.0.0
 RUN mv /usr/local/bin/helm /usr/local/bin/helm3
-
-RUN helm2 plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.2.0
+RUN mkdir /helm3home
+ENV XDG_DATA_HOME=/helm3home
 RUN helm3 plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.2.0
+RUN chmod 775 -R /helm3home
 
 COPY deploy.sh /deploy.sh
 RUN chmod +x /deploy.sh
