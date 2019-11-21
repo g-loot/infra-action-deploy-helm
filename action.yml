@@ -24,10 +24,15 @@ inputs:
   helm_args:
     description: 'should look something like this: "-f /files/values.yaml --set image.tag=latest"'
     required: true
+  helm_command:
+    description: "never override this unless you know what you're doing (protip: you don't)"
+    required: true
+    default: "upgrade --atomic --wait --install $HELM_APPLICATION_NAME gcs-repo/gloot-application $(eval \"array=($HELM_ARGS)\"; for arg in \"${array[@]}\"; do echo \"$arg\"; done)"
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'docker://gcr.io/gloot-automation/action-deploy-helm:latest'
   args:
+    - ${{ inputs.gcp_key }}
     - ${{ inputs.gcp_key }}
     - ${{ inputs.zone }}
     - ${{ inputs.project }}
@@ -36,3 +41,4 @@ runs:
     - ${{ inputs.helm_version }}
     - ${{ inputs.application_name }}
     - ${{ inputs.helm_args }}
+    - ${{ inputs.helm_command }}
