@@ -70,7 +70,8 @@ jobs:
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
           application_name: test-deploy
-          helm_command: "delete --purge $HELM_APPLICATION_NAME"
+          helm_args: "-f values.yaml --set image.tag=latest"
+          helm_command: "delete --purge $RELEASE_NAME"
   lint-commit:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest

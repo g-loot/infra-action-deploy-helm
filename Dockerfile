@@ -18,8 +18,13 @@ ENV XDG_DATA_HOME=/helm3home
 RUN helm3 plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.2.0
 RUN chmod 775 -R /helm3home
 
+RUN curl -L https://github.com/mikefarah/yq/releases/download/2.4.1/yq_linux_amd64 > /usr/local/bin/yq
+RUN chmod +x /usr/local/bin/yq
+
 COPY deploy.sh /deploy.sh
 RUN chmod +x /deploy.sh
+COPY applicationName.sh /applicationName.sh
+RUN chmod +x /applicationName.sh
 
 WORKDIR /github/workspace/
 
