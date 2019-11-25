@@ -15,13 +15,13 @@ jobs:
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-      - name: Tag using semantic release
+      - name: Bump version and push tag
+        id: version_bump
+        uses: anothrNick/github-tag-action@1.8.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npm i @semantic-release/exec -D
-          npx semantic-release@beta
+          DEFAULT_BUMP: "patch"
+          RELEASE_BRANCHES: "master"
   publish-docker-image:
     runs-on: ubuntu-latest
     name: Publish docker image
@@ -72,12 +72,3 @@ jobs:
           application_name: test-deploy
           helm_args: "-f values.yaml --set image.tag=latest"
           helm_command: "delete --purge $RELEASE_NAME"
-  lint-commit:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-      - run: |
-          npm i @commitlint/{config-angular,cli} -D
-          npx commitlint -x "@commitlint/config-angular" --from=origin/master --to=HEAD
