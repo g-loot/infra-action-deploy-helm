@@ -1,31 +1,7 @@
-set -e
-
-export HELM_ARGS=$1
-
-export FILES=""
-
-eval "array=($HELM_ARGS)";
-for i in "${!array[@]}"; do
-  value="${array[$i]}"
-  if [ $value == '-f' ]
-  then
-    export FILES="$FILES ${array[$i+1]}"
-  elif [[ $value == applicationName=* ]]
-  then
-    export APPLICATION_NAME=$(echo $value | sed 's/applicationName=//g')
-    echo $APPLICATION_NAME
-    exit 0
-  elif [[ $value == application.name=* ]]
-  then
-    export APPLICATION_NAME=$(echo $value | sed 's/application.name=//g')
-    echo $APPLICATION_NAME
-    exit 0
-  fi
-done
-
+FILES="values.yaml"
 eval "fileArray=($FILES)";
 
-if [ ${#fileArray[@]} = 0 ]
+if [ ${#fileArray[@]} == 0 ]
 then
   echo "NO APPLICATION_NAME :("
   exit 1

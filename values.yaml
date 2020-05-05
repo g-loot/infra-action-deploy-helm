@@ -1,4 +1,9 @@
-applicationName: "deployment-test"
+# applicationName: "deployment-test"
+application:
+  name: "deployment-test"
+  product: gnog
+  team: infra-and-ops
+  env: dev
 
 image:
   repository: nginxdemos/hello

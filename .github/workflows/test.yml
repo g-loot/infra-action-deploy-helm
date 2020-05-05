@@ -1,0 +1,30 @@
+name: CI-Test
+
+on:
+  push:
+
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    name: Test deployment
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Use local Dockerfile
+        run: |
+          sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
+      - name: Deploy test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
+          application_name: test-deploy
+          helm_version: 3
+          helm_args: "-f values.yaml --set image.tag=latest"
+      - name: Purge test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
+          application_name: test-deploy
+          helm_version: 3
+          helm_args: "-f values.yaml --set image.tag=latest"
+          helm_command: "delete $RELEASE_NAME"
