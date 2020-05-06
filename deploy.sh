@@ -40,10 +40,10 @@ echo "installing $RELEASE_NAME"
 
 if [ $HELM_VERSION == '2' ]
 then
-  helm2 $(eval "array=($HELM_COMMAND)"; for arg in "${array[@]}"; do echo "$arg"; done)
+  helm2 $(eval "array=($HELM_COMMAND)"; for arg in "${array[@]}"; do echo "$arg"; done )
 elif [ $HELM_VERSION == '3' ]
 then
-  helm3 $(eval "array=($HELM_COMMAND)"; for arg in "${array[@]}"; do echo "$arg"; done)
+  helm3 $(eval "array=($HELM_COMMAND)"; for arg in "${array[@]}"; do echo "$arg"; done )
 else
   echo "helm version $VERSION unsupported"
   exit 1

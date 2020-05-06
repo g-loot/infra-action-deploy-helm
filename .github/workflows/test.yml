@@ -4,9 +4,18 @@ on:
   push:
 
 jobs:
-  test-job:
+  no-file-new-name:
     runs-on: ubuntu-latest
-    name: Test deployment
+    name: No file, new naming, H${{ matrix.helm_version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        helm_version: [2, 3]
+        include:
+          - helm_version: 2
+            helm_delete_command: "delete --purge $RELEASE_NAME"
+          - helm_version: 3
+            helm_delete_command: "delete $RELEASE_NAME"
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -17,14 +26,131 @@ jobs:
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          application_name: test-deploy
-          helm_version: 3
-          helm_args: "-f values.yaml --set image.tag=latest"
+          application_name: no-file-new-name-v${{ matrix.helm_version }}
+          helm_version: ${{ matrix.helm_version }}
+          helm_args: > 
+            --set ports[0].name=http
+            --set ports[0].port=9028
+            --set ports[0].protocol=TCP
+            --set image.repository=nginxdemos/hello
+            --set image.tag=latest
+            --set image.pullPolicy=Always
+            --set probe.httpGet.path=/
+            --set probe.httpGet.port=80
+            --set application.name=github-action-helm-test-no-file-v${{ matrix.helm_version }}
+            --set application.product=test
+            --set application.team=github-action-test
+            --set application.env=dev
       - name: Purge test application
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          application_name: test-deploy
+          helm_version: ${{ matrix.helm_version }}
+          helm_args: "--set application.name=github-action-helm-test-no-file-v${{ matrix.helm_version }}"
+          helm_command: ${{ matrix.helm_delete_command }}
+  no-file-old-name:
+    runs-on: ubuntu-latest
+    name: No file, old naming, H${{ matrix.helm_version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        helm_version: [2, 3]
+        include:
+          - helm_version: 2
+            helm_delete_command: "delete --purge $RELEASE_NAME"
+          - helm_version: 3
+            helm_delete_command: "delete $RELEASE_NAME"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Use local Dockerfile
+        run: |
+          sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
+      - name: Deploy test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
+          helm_version: ${{ matrix.helm_version }}
+          helm_args: >
+            --set ports[0].name=http
+            --set ports[0].port=9028
+            --set ports[0].protocol=TCP
+            --set image.repository=nginxdemos/hello
+            --set image.tag=latest
+            --set image.pullPolicy=Always
+            --set probe.httpGet.path=/
+            --set probe.httpGet.port=80
+            --set applicationName=github-action-helm-test-no-file-old-v${{ matrix.helm_version }}
+      - name: Purge test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
+          helm_version: ${{ matrix.helm_version }}
+          helm_args: "--set applicationName=github-action-helm-test-no-file-old-v${{ matrix.helm_version }}"
+          helm_command: ${{ matrix.helm_delete_command }}
+  single-file-old-name:
+    runs-on: ubuntu-latest
+    name: Single-file, old naming
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Use local Dockerfile
+        run: |
+          sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
+      - name: Deploy test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3
-          helm_args: "-f values.yaml --set image.tag=latest"
+          helm_args: "-f value-files/old-name.yaml --set image.tag=latest"
+      - name: Purge test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
+          helm_version: 3
+          helm_args: "-f value-files/old-name.yaml --set image.tag=latest"
+          helm_command: "delete $RELEASE_NAME"
+  single-file-new-name:
+    runs-on: ubuntu-latest
+    name: Single-file, new naming
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Use local Dockerfile
+        run: |
+          sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
+      - name: Deploy test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
+          helm_version: 3
+          helm_args: "-f value-files/new-name.yaml --set image.tag=latest"
+      - name: Purge test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
+          helm_version: 3
+          helm_args: "-f value-files/new-name.yaml --set image.tag=latest"
+          helm_command: "delete $RELEASE_NAME"
+  multiple-files-new-name:
+    runs-on: ubuntu-latest
+    name: Multiple-files, new naming
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Use local Dockerfile
+        run: |
+          sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
+      - name: Deploy test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
+          helm_version: 3
+          helm_args: "-f value-files/new-name.yaml -f value-files/override-new-name.yaml --set image.tag=latest"
+      - name: Purge test application
+        uses: ./
+        with:
+          gcp_key: ${{ secrets.GCP_KEY }}
+          helm_version: 3
+          helm_args: "-f value-files/new-name.yaml -f value-files/override-new-name.yaml  --set image.tag=latest"
           helm_command: "delete $RELEASE_NAME"

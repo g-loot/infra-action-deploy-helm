@@ -1,8 +1,4 @@
-application:
-  name: "deployment-test"
-  product: gnog
-  team: infra-and-ops
-  env: dev
+applicationName: "github-action-helm-test-single-file-old"
 
 image:
   repository: nginxdemos/hello
