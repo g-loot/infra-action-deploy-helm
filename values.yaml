@@ -1,4 +1,3 @@
-# applicationName: "deployment-test"
 application:
   name: "deployment-test"
   product: gnog

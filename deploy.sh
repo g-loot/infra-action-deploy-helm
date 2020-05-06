@@ -8,11 +8,13 @@ export GCS_HELM_REPO="$INPUT_GCS_HELM_REPO"
 export HELM_VERSION="$INPUT_HELM_VERSION"
 export HELM_ARGS="$INPUT_HELM_ARGS"
 export HELM_COMMAND="$INPUT_HELM_COMMAND"
+export REPOSITORY=$(eval "REPO=$INPUT_REPOSITORY" && echo $REPO | sed 's/\//__/') # Replace '/' with '__', since labels don't support '/'
 
 echo -----
 echo "$ZONE"
 echo "$PROJECT"
 echo "$CLUSTER"
+echo "$REPOSITORY"
 echo "$GCS_HELM_REPO"
 echo "$HELM_VERSION"
 echo "$HELM_ARGS"

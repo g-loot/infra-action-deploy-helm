@@ -1,26 +1,32 @@
-FILES="values.yaml"
+FILES=""
 eval "fileArray=($FILES)";
 
-if [ ${#fileArray[@]} == 0 ]
+if [ ${#fileArray[@]} = 0 ]
 then
   echo "NO APPLICATION_NAME :("
   exit 1
 fi
 
-if [ ${#fileArray[@]} = 1 ] && [ ! -z $(cat $FILES | yq r - applicationName) ]
+# If more than one values file, reverse the order and merge them.
+if [ ${#fileArray[@]} -gt 1 ]
 then
-  APPLICATION_NAME=$(cat $FILES | yq r - applicationName)
-elif [ ${#fileArray[@]} = 1 ] && [ ! -z $(cat $FILES | yq r - appplcation.name) ]
-then
-  APPLICATION_NAME=$(cat $FILES | yq r - application.name)
-else
   REVERSED_FILES=$(echo $FILES | awk '{ for (i=NF; i>1; i--) printf("%s ",$i); print $1; }')
-  APPLICATION_NAME=$(yq m $REVERSED_FILES | yq r - applicationName)
-  APPLICATION_NAME=$(yq m $REVERSED_FILES | yq r - application.name)
+  yq m $REVERSED_FILES > "tmp.yaml"
+  VALUES="tmp.yaml"
+else
+  VALUES=$FILES
 fi
 
-if [ ! -z "$APPLICATION_NAME"]
+# Check if new or old naming convention exists.
+OLD_NAME=$(cat $VALUES | yq r - applicationName)
+NEW_NAME=$(cat $VALUES | yq r - application.name) 
+if [ ! -z $OLD_NAME ]
 then
+  APPLICATION_NAME=$OLD_NAME
+elif [ ! -z $NEW_NAME ]
+then
+  APPLICATION_NAME=$NEW_NAME
+else
   echo "NO APPLICATION_NAME :("
   exit 1
 fi
