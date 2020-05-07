@@ -1,0 +1,20 @@
+application:
+  name: "github-action-helm-test-single-file"
+  product: gnog
+  team: infra-and-ops
+  env: dev
+
+image:
+  repository: nginxdemos/hello
+  tag: stable
+  pullPolicy: Always
+
+ports:
+  - name: http
+    port: 80
+    protocol: TCP
+
+probe:
+  httpGet:
+    path: /
+    port: 80

@@ -1,4 +1,4 @@
-applicationName: "deployment-test"
+applicationName: "github-action-helm-test-single-file-old"
 
 image:
   repository: nginxdemos/hello
