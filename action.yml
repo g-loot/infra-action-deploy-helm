@@ -22,7 +22,7 @@ inputs:
     default: 'gs://gloot-charts'
   helm_version:
     required: true
-    default: '2'
+    default: '3'
   helm_args:
     description: 'should look something like this: "-f /files/values.yaml --set image.tag=latest"'
     required: true
