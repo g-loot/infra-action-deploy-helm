@@ -2,7 +2,7 @@ name: 'Deploy helm gloot'
 description: 'Deploy helm gloot'
 inputs:
   gcp_key:
-    description: 'desc'
+    description: 'Google authentication key'
     required: true
   zone:
     required: true
@@ -13,23 +13,28 @@ inputs:
   cluster:
     required: true
     default: 'dev-gll-play'
-  repository:
-    description: "never override this unless you know what you're doing"
+  service_repo:
+    description: "Never override this unless you know what you're doing"
     required: true
     default: "$GITHUB_REPOSITORY"
-  gcs_helm_repo:
+  helm_repo:
     required: true
     default: 'gs://gloot-charts'
+    description: "Chart repo to fetch charts"
   helm_version:
     required: true
     default: '3'
   helm_args:
-    description: 'should look something like this: "-f /files/values.yaml --set image.tag=latest"'
+    description: 'Should look something like this: "-f /files/values.yaml --set image.tag=latest"'
     required: true
+  helm_chart:
+    description: "Helm chart to be deployed"
+    required: true
+    default: gloot-application
   helm_command:
-    description: "never override this unless you know what you're doing (protip: you don't)"
+    description: "Never override this unless you know what you're doing (protip: you don't)"
     required: true
-    default: "upgrade --atomic --wait --install $RELEASE_NAME gcs-repo/gloot-application $(eval \"array=($HELM_ARGS)\"; for arg in \"${array[@]}\"; do echo \"$arg\"; done) --set application.repo=$REPOSITORY"
+    default: "upgrade --atomic --wait --install $RELEASE_NAME repo/$HELM_CHART $(eval \"array=($HELM_ARGS)\"; for arg in \"${array[@]}\"; do echo \"$arg\"; done) --set application.repo=$SERVICE_REPO"
 runs:
   using: 'docker'
   image: 'docker://gcr.io/gloot-automation/action-deploy-helm:latest'
@@ -42,4 +47,5 @@ runs:
     - ${{ inputs.gcs_helm_repo }}
     - ${{ inputs.helm_version }}
     - ${{ inputs.helm_args }}
+    - ${{ inputs.helm_chart }}
     - ${{ inputs.helm_command }}
