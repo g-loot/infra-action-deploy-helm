@@ -7,7 +7,7 @@ RUN apk add --no-cache openssl
 # Install Helm
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
 RUN chmod +x get_helm.sh
-RUN ./get_helm.sh -v v3.0.0
+RUN ./get_helm.sh -v v3.4.1
 # Create Helm folder
 RUN mkdir /helm3home
 RUN chmod 775 -R /helm3home
