@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 
 jobs:
   build-publish-docker-image:
@@ -34,8 +31,5 @@ jobs:
     - name: push to gcr and github
       env:
         DOCKER_IMAGE_GCR: gcr.io/gloot-automation/action-deploy-helm
-        VERSION: ${{ steps.version_bump.outputs.tag }}
       run: |
-        docker build . -t $DOCKER_IMAGE_GCR:latest -t $DOCKER_IMAGE_GCR:$VERSION
-        docker push $DOCKER_IMAGE_GCR:latest
-        docker push $DOCKER_IMAGE_GCR:$VERSION
+        docker build . -t $DOCKER_IMAGE_GCR:latest -t $DOCKER_IMAGE_GCR:${{ steps.version_bump.outputs.tag }}
