@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - fix-helm-version
 
 jobs:
   build-publish-docker-image:
