@@ -24,7 +24,7 @@ jobs:
     - run: gcloud auth configure-docker
     - name: Bump version and push tag
       id: version_bump
-      uses: anothrNick/github-tag-action@1.8.0
+      uses: anothrNick/github-tag-action@1.33.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DEFAULT_BUMP: "patch"
