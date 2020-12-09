@@ -1,6 +1,10 @@
 name: 'Deploy helm gloot'
 description: 'Deploy helm gloot'
 inputs:
+  docker_tag:
+    description: 'never override this unless you know what you're doing'
+    required: true
+    default: 'latest'
   gcp_key:
     description: 'desc'
     required: true
@@ -32,7 +36,7 @@ inputs:
     default: "upgrade --atomic --wait --install $RELEASE_NAME gcs-repo/gloot-application $(eval \"array=($HELM_ARGS)\"; for arg in \"${array[@]}\"; do echo \"$arg\"; done) --set application.repo=$REPOSITORY"
 runs:
   using: 'docker'
-  image: 'docker://gcr.io/gloot-automation/action-deploy-helm:latest'
+  image: 'docker://gcr.io/gloot-automation/action-deploy-helm:${{ inputs.docker_tag }}'
   args:
     - ${{ inputs.gcp_key }}
     - ${{ inputs.gcp_key }}
