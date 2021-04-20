@@ -32,7 +32,7 @@ inputs:
     default: "upgrade --atomic --wait --install $RELEASE_NAME gcs-repo/gloot-application $(eval \"array=($HELM_ARGS)\"; for arg in \"${array[@]}\"; do echo \"$arg\"; done) --set application.repo=$REPOSITORY"
 runs:
   using: 'docker'
-  image: 'docker://gcr.io/gloot-automation/action-deploy-helm:latest'
+  image: 'docker://gcr.io/gloot-automation/action-deploy-helm:1.3.6-beta.2'
   args:
     - ${{ inputs.gcp_key }}
     - ${{ inputs.gcp_key }}
