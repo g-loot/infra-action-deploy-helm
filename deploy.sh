@@ -36,6 +36,8 @@ echo "installing $RELEASE_NAME"
 
 if [ $HELM_VERSION == '3' ]
 then
+  suffix=$(eval "array=($HELM_COMMAND)"; for arg in "${array[@]}"; do echo "$arg"; done )
+  echo "Will run: helm $suffix"
   helm $(eval "array=($HELM_COMMAND)"; for arg in "${array[@]}"; do echo "$arg"; done )
 else
   echo "helm version $VERSION unsupported"
