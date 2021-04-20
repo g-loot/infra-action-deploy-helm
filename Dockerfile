@@ -11,7 +11,7 @@ RUN ./get_helm.sh -v v3.4.1
 # Create Helm folder
 RUN mkdir /helm3home
 RUN chmod 775 -R /helm3home
-# Install Helm GCS plugin 
+# Install Helm GCS plugin
 RUN helm plugin install https://github.com/viglesiasce/helm-gcs.git --version v0.2.0
 # Install yq
 RUN curl -L https://github.com/mikefarah/yq/releases/download/2.4.1/yq_linux_amd64 > /usr/local/bin/yq
