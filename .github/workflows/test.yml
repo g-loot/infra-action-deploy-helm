@@ -19,7 +19,7 @@ jobs:
           gcp_key: ${{ secrets.GCP_KEY }}
           application_name: no-file-new-name
           helm_version: 3
-          helm_args: > 
+          helm_args: >
             --set ports[0].name=http
             --set ports[0].port=9028
             --set ports[0].protocol=TCP
@@ -37,7 +37,7 @@ jobs:
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3
-          helm_args: "--set application.name=github-action-helm-test-no-file"
+          helm_args: ""
           helm_command: delete $RELEASE_NAME
   no-file-old-name:
     runs-on: ubuntu-latest
@@ -68,7 +68,7 @@ jobs:
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3
-          helm_args: "--set applicationName=github-action-helm-test-no-file-old"
+          helm_args: ""
           helm_command: delete $RELEASE_NAME
   single-file-old-name:
     runs-on: ubuntu-latest
@@ -90,7 +90,7 @@ jobs:
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3
-          helm_args: "-f value-files/old-name.yaml --set image.tag=latest"
+          helm_args: ""
           helm_command: "delete $RELEASE_NAME"
   single-file-new-name:
     runs-on: ubuntu-latest
@@ -112,7 +112,7 @@ jobs:
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3
-          helm_args: "-f value-files/new-name.yaml --set image.tag=latest"
+          helm_args: ""
           helm_command: "delete $RELEASE_NAME"
   multiple-files-new-name:
     runs-on: ubuntu-latest
@@ -134,5 +134,5 @@ jobs:
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3
-          helm_args: "-f value-files/new-name.yaml -f value-files/override-new-name.yaml  --set image.tag=latest"
+          helm_args: ""
           helm_command: "delete $RELEASE_NAME"
