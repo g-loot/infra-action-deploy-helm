@@ -23,15 +23,12 @@ helm repo update
 gcloud container clusters get-credentials "$INPUT_CLUSTER" --zone "$INPUT_ZONE" --project "$INPUT_PROJECT"
 
 export RELEASE_NAME=$(/applicationName.sh "$INPUT_HELM_ARGS")
-
-echo "installing $RELEASE_NAME"
+echo "Release name: $RELEASE_NAME"
 
 if [ $INPUT_HELM_VERSION == '3' ]
 then
   helm_command_array=($(eval "echo $INPUT_HELM_COMMAND"))
-  echo CMD: ["${helm_command_array[@]}"]
   declare -a 'helm_args_array=('"$INPUT_HELM_ARGS"')'
-  echo ARGS: ["${helm_args_array[@]}"]
   helm "${helm_command_array[@]}" "${helm_args_array[@]}"
 else
   echo "helm version $INPUT_HELM_VERSION unsupported"
