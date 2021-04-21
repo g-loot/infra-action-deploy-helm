@@ -30,8 +30,9 @@ if [ $INPUT_HELM_VERSION == '3' ]
 then
   helm_command_array=($(eval "echo $INPUT_HELM_COMMAND"))
   echo CMD: ["${helm_command_array[@]}"]
-  echo ARGS: ["$INPUT_HELM_ARGS"]
-  helm "${helm_command_array[@]}" "$INPUT_HELM_ARGS" --namespace "default"
+  declare -a 'helm_args_array=('"$INPUT_HELM_ARGS"')'
+  echo ARGS: ["${helm_args_array[@]}"]
+  helm "${helm_command_array[@]}" "${helm_args_array[@]}"
 else
   echo "helm version $INPUT_HELM_VERSION unsupported"
   exit 1
