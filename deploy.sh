@@ -31,7 +31,7 @@ then
   helm_command_array=($(eval "echo $INPUT_HELM_COMMAND"))
   echo CMD: ["${helm_command_array[@]}"]
   echo ARGS: ["$INPUT_HELM_ARGS"]
-  helm "${helm_command_array[@]}" "$INPUT_HELM_ARGS"
+  helm "${helm_command_array[@]}" "$INPUT_HELM_ARGS" --namespace "default"
 else
   echo "helm version $INPUT_HELM_VERSION unsupported"
   exit 1
