@@ -28,9 +28,10 @@ echo "installing $RELEASE_NAME"
 
 if [ $INPUT_HELM_VERSION == '3' ]
 then
-  helm_command=$(eval "echo $INPUT_HELM_COMMAND")
-  echo "Running: helm $helm_command $INPUT_HELM_ARGS"
-  helm $helm_command $INPUT_HELM_ARGS
+  helm_command_array=($(eval "echo $INPUT_HELM_COMMAND"))
+  echo CMD: ["${helm_command_array[@]/#/}"]
+  echo ARGS: [$INPUT_HELM_ARGS]
+  helm "${helm_command_array[@]/#/}" "$INPUT_HELM_ARGS"
 else
   echo "helm version $INPUT_HELM_VERSION unsupported"
   exit 1
