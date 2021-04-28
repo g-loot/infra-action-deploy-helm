@@ -25,6 +25,11 @@ gcloud container clusters get-credentials "$INPUT_CLUSTER" --zone "$INPUT_ZONE" 
 export RELEASE_NAME=$(/applicationName.sh "$INPUT_HELM_ARGS")
 echo "Release name: $RELEASE_NAME"
 
+
+log_url="https://console.cloud.google.com/logs/query;query=resource.labels.project_id%3D%22$INPUT_PROJECT%22%0Aresource.labels.location%3D%22$INPUT_ZONE%22%0Aresource.labels.cluster_name%3D%22$INPUT_CLUSTER%22%0Alabels.k8s-pod%2Fapp%3D%22$RELEASE_NAME%22;?project=$INPUT_PROJECT"
+echo "GCP logs:  $log_url"
+echo "::set-output name=log_url::$log_url"
+
 if [ $INPUT_HELM_VERSION == '3' ]
 then
   helm_command_array=($(eval "echo $INPUT_HELM_COMMAND"))
