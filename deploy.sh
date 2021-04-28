@@ -16,20 +16,32 @@ echo "-----"
 echo "$INPUT_GCP_KEY" | base64 -d > /tmp/google_credentials.json
 gcloud auth activate-service-account --key-file /tmp/google_credentials.json
 
+echo "::group::Add helm repo"
 export XDG_DATA_HOME=/helm3home
 helm repo add gcs-repo "$INPUT_GCS_HELM_REPO"
 helm repo update
+echo "::endgroup::"
 
+echo "::group::Get k8s credentials"
 gcloud container clusters get-credentials "$INPUT_CLUSTER" --zone "$INPUT_ZONE" --project "$INPUT_PROJECT"
+
 
 export RELEASE_NAME=$(/applicationName.sh "$INPUT_HELM_ARGS")
 echo "Release name: $RELEASE_NAME"
 
+echo "::group::Get k8s credentials"
+log_url="GCP logs: https://console.cloud.google.com/logs/query;query=resource.labels.project_id%3D%22$INPUT_PROJECT%22%0Aresource.labels.location%3D%22$INPUT_ZONE%22%0Aresource.labels.cluster_name%3D%22$INPUT_CLUSTER%22%0Alabels.k8s-pod%2Fapp%3D%22$RELEASE_NAME%22;?project=$INPUT_PROJECT"
+echo "$log_url"
+echo "::endgroup::"
+echo "::set-output name=log_url::$log_url"
+
 if [ $INPUT_HELM_VERSION == '3' ]
 then
+  echo "::group::Helm upgrade"
   helm_command_array=($(eval "echo $INPUT_HELM_COMMAND"))
   declare -a 'helm_args_array=('"$INPUT_HELM_ARGS"')'
   helm "${helm_command_array[@]}" "${helm_args_array[@]}"
+  echo "::endgroup::"
 else
   echo "helm version $INPUT_HELM_VERSION unsupported"
   exit 1
