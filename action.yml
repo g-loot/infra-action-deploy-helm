@@ -30,6 +30,9 @@ inputs:
     description: "never override this unless you know what you're doing (protip: you don't)"
     required: true
     default: "upgrade --atomic --wait --install $RELEASE_NAME gcs-repo/gloot-application --set application.repo=$REPOSITORY"
+outputs:
+  log_url:
+    description: 'URL to GCP logs'
 runs:
   using: 'docker'
   image: 'docker://gcr.io/gloot-automation/action-deploy-helm:latest'
