@@ -25,8 +25,8 @@ gcloud container clusters get-credentials "$INPUT_CLUSTER" --zone "$INPUT_ZONE" 
 export RELEASE_NAME=$(/applicationName.sh "$INPUT_HELM_ARGS")
 echo "Release name: $RELEASE_NAME"
 
-timestamp=`date -u "+%FT%T.%3Z"`
-log_url="https://console.cloud.google.com/logs/query;query=resource.labels.project_id%3D%22$INPUT_PROJECT%22%0Aresource.labels.location%3D%22$INPUT_ZONE%22%0Aresource.labels.cluster_name%3D%22$INPUT_CLUSTER%22%0A%22$RELEASE_NAME;cursorTimestamp=$timestamp?project=$INPUT_PROJECT"
+timestamp=`date -u "+%FT%T"`
+log_url="https://console.cloud.google.com/logs/query;query=resource.labels.project_id%3D%22$INPUT_PROJECT%22%0Aresource.labels.location%3D%22$INPUT_ZONE%22%0Aresource.labels.cluster_name%3D%22$INPUT_CLUSTER%22%0A%22$RELEASE_NAME;cursorTimestamp=$timestamp.2Z?project=$INPUT_PROJECT"
 echo "GCP logs:  $log_url"
 echo "::set-output name=log_url::$log_url"
 
