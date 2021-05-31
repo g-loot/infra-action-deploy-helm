@@ -26,8 +26,10 @@ export RELEASE_NAME=$(/applicationName.sh "$INPUT_HELM_ARGS")
 echo "Release name: $RELEASE_NAME"
 
 timestamp1=$(date '+%FT%T')
-timestamp2=$(date -d@"$(( `date +%s`+20))" '+%FT%T')
-log_url="https://console.cloud.google.com/logs/query;query=resource.labels.project_id%3D%22$INPUT_PROJECT%22%0Aresource.labels.location%3D%22$INPUT_ZONE%22%0Aresource.labels.cluster_name%3D%22$INPUT_CLUSTER%22%0A%22$RELEASE_NAME%22;timeRange=$timestamp1.2Z%2F$timestamp2.2?project=$INPUT_PROJECT"
+timestamp2=$(date -d@"$(( `date +%s`+200))" '+%FT%T')
+timestamp2=$(date -d@"$(( `date +%s`+10))" '+%FT%T')
+
+log_url="https://console.cloud.google.com/logs/query;query=resource.labels.project_id%3D%22$INPUT_PROJECT%22%0Aresource.labels.location%3D%22$INPUT_ZONE%22%0Aresource.labels.cluster_name%3D%22$INPUT_CLUSTER%22%0A%22$RELEASE_NAME%22;timeRange=$timestamp1.2Z%2F$timestamp2.2;cursorTimestamp=$timestamp3.2Z?project=$INPUT_PROJECT"
 echo "GCP logs:  $log_url"
 echo "::set-output name=log_url::$log_url"
 
