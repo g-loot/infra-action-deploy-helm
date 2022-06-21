@@ -9,40 +9,28 @@ inputs:
     default: 'europe-west1-b'
   project:
     required: true
-    default: 'play-gll-gg'
-  cluster:
-    required: true
-    default: 'dev-gll-play'
-  repository:
-    description: "never override this unless you know what you're doing"
-    required: true
-    default: "$GITHUB_REPOSITORY"
+    default: 'gnog-dev-af5b'
   gcs_helm_repo:
     required: true
-    default: 'gs://gloot-charts'
+    default: 'oci://eu.gcr.io/gnog-dev-af5b/gcf'
   helm_version:
     required: true
-    default: '3'
-  helm_args:
-    description: 'should look something like this: "-f /files/values.yaml --set image.tag=latest"'
-    required: true
+    default: '3.9.0'
   helm_command:
     description: "never override this unless you know what you're doing (protip: you don't)"
     required: true
-    default: "upgrade --atomic --wait --install $RELEASE_NAME gcs-repo/gloot-application --set application.repo=$REPOSITORY"
+    default: "push demo application.repo=$REPOSITORY"
 outputs:
   log_url:
     description: 'URL to GCP logs'
 runs:
   using: 'docker'
-  image: 'docker://gcr.io/gloot-automation/action-deploy-helm:latest'
+  image: 'eu.gcr.io/gnog-dev-af5b/gcf/europe-west1/helm-oci:oci'
   args:
     - ${{ inputs.gcp_key }}
     - ${{ inputs.gcp_key }}
     - ${{ inputs.zone }}
     - ${{ inputs.project }}
-    - ${{ inputs.cluster }}
     - ${{ inputs.gcs_helm_repo }}
     - ${{ inputs.helm_version }}
-    - ${{ inputs.helm_args }}
     - ${{ inputs.helm_command }}

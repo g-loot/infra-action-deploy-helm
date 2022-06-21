@@ -8,14 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and publish docker image
     env: 
-      DOCKER_IMAGE_GCR: gcr.io/gloot-automation/action-deploy-helm
+      DOCKER_IMAGE_GCR: eu.gcr.io/gnog-dev-af5b/gcf/europe-west1/helm-oci
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
     - name: Setup GCP
-      uses: google-github-actions/setup-gcloud@master
+      uses: google-github-actions/setup-gcloud@v0
       with:
         version: '320.0.0'
         service_account_email: ${{ secrets.GCP_EMAIL }}
@@ -23,18 +23,12 @@ jobs:
     - run: gcloud auth configure-docker
     - name: Bump version and push tag
       id: version_bump
-      uses: anothrNick/github-tag-action@1.33.0
+      uses: anothrNick/github-tag-action@1.36.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DEFAULT_BUMP: "patch"
         RELEASE_BRANCHES: "master"
     - name: Push image to GCR
       run: |
-        docker build . -t $DOCKER_IMAGE_GCR:${{ steps.version_bump.outputs.tag }}
-        docker push $DOCKER_IMAGE_GCR:${{ steps.version_bump.outputs.tag }}
-    # Update 'latest' image if on master branch
-    - name: Push and update latest image in GCR
-      if: github.ref == 'refs/heads/master'
-      run: |
-        docker tag $DOCKER_IMAGE_GCR:${{ steps.version_bump.outputs.tag }} $DOCKER_IMAGE_GCR:latest
-        docker push $DOCKER_IMAGE_GCR:latest
+        docker build . -t $DOCKER_IMAGE_GCR:oci
+        docker push $DOCKER_IMAGE_GCR:oci
