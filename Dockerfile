@@ -20,6 +20,7 @@ RUN chmod +x /usr/local/bin/yq
 RUN gcloud components install kubectl
 # Copy scripts and make executable
 COPY deploy.sh /deploy.sh
+RUN chmod +x /deploy.sh
 WORKDIR /github/workspace/
 
 ENTRYPOINT [ "/deploy.sh" ]
