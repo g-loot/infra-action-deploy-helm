@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and publish docker image
     env: 
-      DOCKER_IMAGE_GCR: eu.gcr.io/gnog-dev-af5b/gcf/europe-west1/helm-oci
+      DOCKER_IMAGE_GCR: gcr.io/gloot-automation/oci-action-deploy-helm/helm-oci
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -31,4 +31,4 @@ jobs:
     - name: Push image to GCR
       run: |
         docker build . -t $DOCKER_IMAGE_GCR:oci
-        docker push $DOCKER_IMAGE_GCR:oci
+#docker push $DOCKER_IMAGE_GCR:oci

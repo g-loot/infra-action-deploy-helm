@@ -25,7 +25,7 @@ outputs:
     description: 'URL to GCP logs'
 runs:
   using: 'docker'
-  image: 'eu.gcr.io/gnog-dev-af5b/gcf/europe-west1/helm-oci:oci'
+  image: 'gcr.io/gloot-automation/oci-action-deploy-helm/helm-oci:oci'
   args:
     - ${{ inputs.gcp_key }}
     - ${{ inputs.gcp_key }}
