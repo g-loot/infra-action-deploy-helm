@@ -2,11 +2,11 @@ name: package and push chart
 on:
   push:
     branches:
-      - "new-oci"
+      - "new_oci"
 jobs:
   ondemand:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/new-oci'
+    if: github.ref == 'refs/heads/new_oci'
     steps:
       - uses: actions/checkout@v2
         with:
