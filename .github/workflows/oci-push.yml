@@ -27,7 +27,7 @@ jobs:
       - name: Package chart
         uses: g-loot/action-deploy-helm@oci-4
         with:
-          gcp_key: ${{ secrets.GKE_KEY }}
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3.9.0
           helm_command: 'package demo --version ${{ steps.version_bump.outputs.tag }}'
 #      - name: Push chart to docker GCR
