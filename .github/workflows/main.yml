@@ -1,7 +1,9 @@
 name: CI-Deploy
 
 on:
-  push
+  push:
+    branches:
+      - "oci-chart"
 
 jobs:
   build-publish-docker-image:

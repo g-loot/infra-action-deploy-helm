@@ -1,0 +1,44 @@
+name: package and push chart
+on:
+  push:
+    branches:
+      - "new-oci"
+jobs:
+  ondemand:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/new-oci'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          service_account_email: ${{ secrets.GCP_EMAIL }}
+          service_account_key: ${{ secrets.GCP_KEY }}
+      - run: gcloud auth configure-docker
+      - name: Bump tag
+        id: version_bump
+        uses: anothrNick/github-tag-action@1.36.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: "patch"
+          RELEASE_BRANCHES: "main"
+      - name: Package chart
+        uses: g-loot/action-deploy-helm@oci-4
+        with:
+          gcp_key: ${{ secrets.GKE_KEY }}
+          helm_version: 3.9.0
+          helm_command: 'package demo --version ${{ steps.version_bump.outputs.tag }}'
+#      - name: Push chart to docker GCR
+#        uses: g-loot/action-deploy-helm@oci-4
+#        with:
+#          gcp_key: ${{ secrets.GKE_KEY }}
+#          helm_version: 3.9.0
+#          helm_command: 'push demo-${{ steps.version_bump.outputs.tag }}.tgz oci://gcr.io/gloot-automation/oci-action-deploy-helm'
+  always-job:
+    name: Always run job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Always run
+        run: echo "This job is used to prevent the workflow status from showing as failed when all other jobs are skipped."
