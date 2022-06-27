@@ -1,11 +1,13 @@
 name: CI-Test
 
 on:
-  push:
+  pull_request_review:
+    types: [submitted, edited]
 
 jobs:
   no-file-new-name:
     runs-on: ubuntu-latest
+    if: github.event.review.body == 'test'
     name: No file, new naming
     steps:
       - name: Checkout
@@ -41,6 +43,7 @@ jobs:
           helm_command: delete github-action-helm-test-no-file
   no-file-old-name:
     runs-on: ubuntu-latest
+    if: github.event.review.body == 'test'
     name: No file, old naming
     steps:
       - name: Checkout
@@ -72,6 +75,7 @@ jobs:
           helm_command: delete github-action-helm-test-no-file-old
   single-file-old-name:
     runs-on: ubuntu-latest
+    if: github.event.review.body == 'test'
     name: Single-file, old naming
     steps:
       - name: Checkout
@@ -94,6 +98,7 @@ jobs:
           helm_command: "delete github-action-helm-test-single-file-old"
   single-file-new-name:
     runs-on: ubuntu-latest
+    if: github.event.review.body == 'test'
     name: Single-file, new naming
     steps:
       - name: Checkout
@@ -116,6 +121,7 @@ jobs:
           helm_command: "delete github-action-helm-test-single-file"
   multiple-files-new-name:
     runs-on: ubuntu-latest
+    if: github.event.review.body == 'test'
     name: Multiple-files, new naming
     steps:
       - name: Checkout
