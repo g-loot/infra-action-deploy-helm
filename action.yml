@@ -22,7 +22,7 @@ inputs:
     default: 'gs://gloot-charts'
   helm_version:
     required: true
-    default: '3'
+    default: '3.9.0'
   helm_args:
     description: 'should look something like this: "-f /files/values.yaml --set image.tag=latest"'
     required: true
@@ -35,7 +35,7 @@ outputs:
     description: 'URL to GCP logs'
 runs:
   using: 'docker'
-  image: 'docker://gcr.io/gloot-automation/action-deploy-helm:latest'
+  image: 'docker://gcr.io/gloot-automation/oci-action-deploy-helm:oci'
   args:
     - ${{ inputs.gcp_key }}
     - ${{ inputs.gcp_key }}
