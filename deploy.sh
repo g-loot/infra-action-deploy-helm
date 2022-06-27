@@ -19,8 +19,8 @@ gcloud auth activate-service-account --key-file /tmp/google_credentials.json
 export XDG_DATA_HOME=/helm3home
 #helm repo add gcs-repo "$INPUT_GCS_HELM_REPO"
 #helm repo update
-
-gcloud container clusters get-credentials "$INPUT_CLUSTER" --zone "$INPUT_ZONE" --project "$INPUT_PROJECT"
+gcloud auth configure-docker 
+#gcloud container clusters get-credentials "$INPUT_CLUSTER" --zone "$INPUT_ZONE" --project "$INPUT_PROJECT"
 
 export RELEASE_NAME=$(/applicationName.sh "$INPUT_HELM_ARGS")
 echo "Release name: $RELEASE_NAME"
