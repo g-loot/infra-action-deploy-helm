@@ -17,9 +17,12 @@ inputs:
     description: "never override this unless you know what you're doing"
     required: true
     default: "$GITHUB_REPOSITORY"
-  gcs_helm_repo:
+  oci_helm_repo:
     required: true
-    default: 'gs://gloot-charts'
+    default: 'oci://gcr.io/gloot-automation/oci-action-deploy-helm/gloot-application'
+  oci_chart_version:
+    required: true
+    default: 'latest'  
   helm_version:
     required: true
     default: '3.9.0'
@@ -29,7 +32,7 @@ inputs:
   helm_command:
     description: "never override this unless you know what you're doing (protip: you don't)"
     required: true
-    default: "upgrade --atomic --wait --install $RELEASE_NAME gcs-repo/gloot-application --set application.repo=$REPOSITORY"
+    default: "upgrade --atomic --wait --install $RELEASE_NAME $INPUT_OCI_HELM_REPO --version=$INPUT_OCI_CHART_VERSION --set application.repo=$REPOSITORY"
 outputs:
   log_url:
     description: 'URL to GCP logs'
@@ -42,7 +45,8 @@ runs:
     - ${{ inputs.zone }}
     - ${{ inputs.project }}
     - ${{ inputs.cluster }}
-    - ${{ inputs.gcs_helm_repo }}
+    - ${{ inputs.oci_helm_repo }}
+    - ${{ inputs.oci_chart_version }}
     - ${{ inputs.helm_version }}
     - ${{ inputs.helm_args }}
     - ${{ inputs.helm_command }}

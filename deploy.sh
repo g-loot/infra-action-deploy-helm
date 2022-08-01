@@ -7,7 +7,8 @@ echo "Project: $INPUT_PROJECT"
 echo "Zone: $INPUT_ZONE"
 echo "Cluster: $INPUT_CLUSTER"
 echo "Git Repo: $REPOSITORY"
-echo "Helm Repo: $INPUT_GCS_HELM_REPO"
+echo "Helm OCI: $INPUT_OCI_HELM_REPO"
+echo "Helm OCI_Version: $INPUT_OCI_CHART_VERSION"
 echo "Helm Version: $INPUT_HELM_VERSION"
 echo "Helm Command: $INPUT_HELM_COMMAND"
 echo "Helm Args: $INPUT_HELM_ARGS"
@@ -17,7 +18,7 @@ echo "$INPUT_GCP_KEY" | base64 -d > /tmp/google_credentials.json
 gcloud auth activate-service-account --key-file /tmp/google_credentials.json
 
 export XDG_DATA_HOME=/helm3home
-#helm repo add gcs-repo "$INPUT_GCS_HELM_REPO"
+helm pull "$INPUT_OCI_HELM_REPO" --version="$INPUT_OCI_CHART_VERSION"
 #helm repo update
 gcloud auth configure-docker 
 gcloud container clusters get-credentials "$INPUT_CLUSTER" --zone "$INPUT_ZONE" --project "$INPUT_PROJECT"
