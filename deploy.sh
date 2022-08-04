@@ -31,12 +31,7 @@ log_url="https://console.cloud.google.com/logs/query;query=resource.labels.proje
 echo "GCP logs:  $log_url"
 echo "::set-output name=log_url::$log_url"
 
-if [ $INPUT_HELM_VERSION == '3.9.0' ]
-then
-  helm_command_array=($(eval "echo $INPUT_HELM_COMMAND"))
-  declare -a 'helm_args_array=('"$INPUT_HELM_ARGS"')'
-  helm "${helm_command_array[@]}" "${helm_args_array[@]}"
-else
-  echo "helm version $INPUT_HELM_VERSION unsupported"
-  exit 1
-fi
+
+helm_command_array=($(eval "echo $INPUT_HELM_COMMAND"))
+declare -a 'helm_args_array=('"$INPUT_HELM_ARGS"')'
+helm "${helm_command_array[@]}" "${helm_args_array[@]}"
