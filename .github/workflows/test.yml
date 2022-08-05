@@ -16,7 +16,7 @@ jobs:
       - name: Deploy test application
         uses: ./
         with:
-          gcp_key: ${{ secrets.GKE_KEY }}
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3.9.0
           helm_args: >
             --set ports[0].name=http
@@ -34,7 +34,7 @@ jobs:
       - name: Purge test application
         uses: ./
         with:
-          gcp_key: ${{ secrets.GKE_KEY }}
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3.9.0
           helm_args: ""
           helm_command: delete github-action-helm-test-no-file
@@ -50,7 +50,7 @@ jobs:
       - name: Deploy test application
         uses: ./
         with:
-          gcp_key: ${{ secrets.GKE_KEY }}
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3.9.0
           helm_args: >
             --set ports[0].name=http
@@ -65,7 +65,7 @@ jobs:
       - name: Purge test application
         uses: ./
         with:
-          gcp_key: ${{ secrets.GKE_KEY }}
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3.9.0
           helm_args: ""
           helm_command: delete github-action-helm-test-no-file-old
@@ -81,13 +81,13 @@ jobs:
       - name: Deploy test application
         uses: ./
         with:
-          gcp_key: ${{ secrets.GKE_KEY }}
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3.9.0
           helm_args: "-f value-files/old-name.yaml --set image.tag=latest"
       - name: Purge test application
         uses: ./
         with:
-          gcp_key: ${{ secrets.GKE_KEY }}
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3.9.0
           helm_args: ""
           helm_command: "delete github-action-helm-test-single-file-old"
@@ -103,13 +103,13 @@ jobs:
       - name: Deploy test application
         uses: ./
         with:
-          gcp_key: ${{ secrets.GKE_KEY }}
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3.9.0
           helm_args: "-f value-files/new-name.yaml --set image.tag=latest"
       - name: Purge test application
         uses: ./
         with:
-          gcp_key: ${{ secrets.GKE_KEY }}
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3.9.0
           helm_args: ""
           helm_command: "delete github-action-helm-test-single-file"
@@ -125,13 +125,13 @@ jobs:
       - name: Deploy test application
         uses: ./
         with:
-          gcp_key: ${{ secrets.GKE_KEY }}
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3.9.0
           helm_args: "-f value-files/new-name.yaml -f value-files/override-new-name.yaml --set image.tag=latest"
       - name: Purge test application
         uses: ./
         with:
-          gcp_key: ${{ secrets.GKE_KEY }}
+          gcp_key: ${{ secrets.GCP_KEY }}
           helm_version: 3.9.0
           helm_args: ""
           helm_command: "delete github-action-helm-test-multiple-files"
