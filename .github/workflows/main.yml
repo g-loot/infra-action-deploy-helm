@@ -7,7 +7,7 @@ jobs:
   build-publish-docker-image:
     runs-on: ubuntu-latest
     name: Build and publish docker image
-    env: 
+    env:
       DOCKER_IMAGE_GCR: gcr.io/gloot-automation/action-deploy-helm
     steps:
     - name: Checkout
