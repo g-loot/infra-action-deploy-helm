@@ -9,10 +9,10 @@ inputs:
     default: 'europe-west1-b'
   project:
     required: true
-    default: 'play-gll-gg'
+    default: 'gnog-dev-af5b'
   cluster:
     required: true
-    default: 'dev-gll-play'
+    default: 'gloot-cluster'
   repository:
     description: "never override this unless you know what you're doing"
     required: true
