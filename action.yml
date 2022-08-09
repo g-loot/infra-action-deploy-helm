@@ -6,7 +6,7 @@ inputs:
     required: true
   zone:
     required: true
-    default: 'europe-west1-b'
+    default: 'europe-west1'
   project:
     required: true
     default: 'gnog-dev-af5b'
