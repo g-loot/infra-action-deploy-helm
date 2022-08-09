@@ -6,13 +6,13 @@ inputs:
     required: true
   zone:
     required: true
-    default: 'europe-west1-b'
+    default: 'europe-west1'
   project:
     required: true
-    default: 'play-gll-gg'
+    default: 'gnog-dev-af5b'
   cluster:
     required: true
-    default: 'dev-gll-play'
+    default: 'gloot-cluster'
   repository:
     description: "never override this unless you know what you're doing"
     required: true
