@@ -35,8 +35,8 @@ jobs:
         RELEASE_BRANCHES: "master"
     - name: Push image to GCR
       run: |
-        docker build . -t $DOCKER_IMAGE_GCR:${{ steps.version_bump.outputs.tag }}
-        docker push $DOCKER_IMAGE_GCR:${{ steps.version_bump.outputs.tag }}
+        docker build . -t "$DOCKER_IMAGE_GCR:${{ steps.version_bump.outputs.tag }}"
+        docker push "$DOCKER_IMAGE_GCR:${{ steps.version_bump.outputs.tag }}"
     # Update 'latest' image if on master branch
     - name: Push and update latest image in GCR
       if: github.ref == 'refs/heads/master'
