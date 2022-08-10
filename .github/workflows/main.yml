@@ -41,5 +41,5 @@ jobs:
     - name: Push and update latest image in GCR
       if: github.ref == 'refs/heads/master'
       run: |
-        docker tag $DOCKER_IMAGE_GCR:${{ steps.version_bump.outputs.tag }} $DOCKER_IMAGE_GCR:latest
-        docker push $DOCKER_IMAGE_GCR:latest
+        docker tag "$DOCKER_IMAGE_GCR:${{ steps.version_bump.outputs.tag }}" "$DOCKER_IMAGE_GCR:latest"
+        docker push "$DOCKER_IMAGE_GCR:latest"
