@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-readonly export REPOSITORY="$(eval "REPO=$INPUT_REPOSITORY" && echo $REPO | sed 's/\//__/') # Replace '/' with '__', since labels don't support '/'"
+readonly export REPOSITORY="$(eval "REPO=$INPUT_REPOSITORY" && echo $REPO" | sed 's/\//__/') # Replace '/' with '__', since labels don't support '/'
 
 echo "----- Helm Info -----"
 echo "Project: $INPUT_PROJECT"
@@ -32,6 +32,6 @@ echo "GCP logs:  $log_url"
 echo "::set-output name=log_url::$log_url"
 
 
-read -r HELM_COMMAND_ARRAY=($(eval "echo $INPUT_HELM_COMMAND"))
+HELM_COMMAND_ARRAY="$(eval "echo $INPUT_HELM_COMMAND")"
 declare -a 'HELM_ARGS_ARRAY=('"$INPUT_HELM_ARGS"')'
 helm "${HELM_COMMAND_ARRAY[@]}" "${HELM_ARGS_ARRAY[@]}"
