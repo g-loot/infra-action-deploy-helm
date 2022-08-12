@@ -14,7 +14,7 @@ echo "Helm Command: $INPUT_HELM_COMMAND"
 echo "Helm Args: $INPUT_HELM_ARGS"
 echo "-----"
 
-echo "$INPUT_GCP_KEY" | base64 -d > /tmp/google_credentials.json
+echo "$INPUT_GCP_KEY | base64 -d > /tmp/google_credentials.json"
 gcloud auth activate-service-account --key-file /tmp/google_credentials.json
 
 export XDG_DATA_HOME=/helm3home
@@ -34,4 +34,4 @@ echo "::set-output name=log_url::$log_url"
 
 HELM_COMMAND_ARRAY="$(eval "echo $INPUT_HELM_COMMAND")"
 declare -a 'HELM_ARGS_ARRAY=('"$INPUT_HELM_ARGS"')'
-helm "$({HELM_COMMAND_ARRAY[@]}" "${HELM_ARGS_ARRAY[@]})"
+helm "${HELM_COMMAND_ARRAY[@]}" "${HELM_ARGS_ARRAY[@]}"
