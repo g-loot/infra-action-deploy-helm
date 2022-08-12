@@ -16,5 +16,5 @@ ports:
 
 probe:
   httpGet:
-    path: /
-    port: 80
+  path: /
+  port: 80

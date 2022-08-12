@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-local -r export REPOSITORY=$(eval "REPO=$INPUT_REPOSITORY" && echo $REPO | sed 's/\//__/') # Replace '/' with '__', since labels don't support '/'
+readonly export REPOSITORY="$(eval "REPO=$INPUT_REPOSITORY" && echo $REPO | sed 's/\//__/') # Replace '/' with '__', since labels don't support '/'"
 
 echo "----- Helm Info -----"
 echo "Project: $INPUT_PROJECT"
@@ -23,7 +23,7 @@ helm pull "$INPUT_OCI_HELM_REPO" --version "$INPUT_OCI_CHART_VERSION"
 gcloud auth configure-docker
 gcloud container clusters get-credentials "$INPUT_CLUSTER" --zone "$INPUT_ZONE" --project "$INPUT_PROJECT"
 
-local -r export RELEASE_NAME=$(/applicationName.sh "$INPUT_HELM_ARGS")
+readonly export RELEASE_NAME=$(/applicationName.sh "$INPUT_HELM_ARGS")
 echo "Release name: $RELEASE_NAME"
 
 timestamp="$(date -d@"$(( $(date+%s)+300))" '+%FT%T.3Z')"
@@ -32,6 +32,6 @@ echo "GCP logs:  $log_url"
 echo "::set-output name=log_url::$log_url"
 
 
-HELM_COMMAND_ARRAY=($(eval "echo $INPUT_HELM_COMMAND"))
-declare -a 'helm_args_array=('"$INPUT_HELM_ARGS"')'
-helm "${HELM_COMMAND_ARRAY[@]}" "${helm_args_array[@]}"
+read -r HELM_COMMAND_ARRAY=($(eval "echo $INPUT_HELM_COMMAND"))
+declare -a 'HELM_ARGS_ARRAY=('"$INPUT_HELM_ARGS"')'
+helm "${HELM_COMMAND_ARRAY[@]}" "${HELM_ARGS_ARRAY[@]}"
