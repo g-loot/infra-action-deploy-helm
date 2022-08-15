@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-REPOSITORY="$(eval "REPO=$INPUT_REPOSITORY" && echo $REPO" | sed 's/\//__/') # Replace '/' with '__', since labels don't support '/'
+export REPOSITORY="$(eval "REPO=$INPUT_REPOSITORY" && echo $REPO" | sed 's/\//__/') # Replace '/' with '__', since labels don't support '/'
 
 echo "----- Helm Info -----"
 echo "Project: $INPUT_PROJECT"
