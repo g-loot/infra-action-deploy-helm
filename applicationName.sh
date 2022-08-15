@@ -13,12 +13,12 @@ for i in "${!ARRAY[@]}"; do
     export FILES="$FILES ${ARRAY[$i+1]}"
   elif [[ "$value" == applicationName=* ]]
   then
-    export readonly APPLICATION_NAME=$(echo "$value" | sed 's/applicationName=//g')
+    export readonly APPLICATION_NAME=$(echo "$value" | sed 's/applicationName=//g') # shellcheck disable=SC2155
     echo "$APPLICATION_NAME"
     exit 0
   elif [[ "$value" == application.name=* ]]
   then
-    export readonly APPLICATION_NAME=$(echo "$value" | sed 's/application.name=//g')
+    export readonly APPLICATION_NAME=$(echo "$value" | sed 's/application.name=//g') # shellcheck disable=SC2155
     echo "$APPLICATION_NAME"
     exit 0
   fi

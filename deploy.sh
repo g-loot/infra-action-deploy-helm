@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC1072,SC1073,SC1064
+# shellcheck disable=SC1072,SC1073,SC1064,SC1078
 set -e
 export REPOSITORY="$(eval "REPO=$INPUT_REPOSITORY" && echo $REPO" | sed 's/\//__/') # Replace '/' with '__', since labels don't support '/'
 
