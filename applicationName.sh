@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2155,SC2001,SC2002,SC2154
+# shellcheck disable=SC2155,SC2001,SC2002,SC2154,SC1089
 set -e
 
 export HELM_ARGS=$1
