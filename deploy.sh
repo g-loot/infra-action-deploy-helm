@@ -34,4 +34,4 @@ echo "::set-output name=log_url::$log_url"
 
 HELM_COMMAND_ARRAY="$(eval "echo $INPUT_HELM_COMMAND")"
 declare -a 'HELM_ARGS_ARRAY=('"$INPUT_HELM_ARGS"')'
-helm "($HELM_COMMAND_ARRAY[@])" "($HELM_ARGS_ARRAY[@])"
+helm "$HELM_COMMAND_ARRAY[@]" "($HELM_ARGS_ARRAY[@])"
