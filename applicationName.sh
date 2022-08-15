@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC1073
+# shellcheck disable=SC2155
 set -e
 
 export HELM_ARGS=$1
