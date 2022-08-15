@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2155,SC2001,SC2002
+# shellcheck disable=SC2155,SC2001,SC2002,SC2154
 set -e
 
 export HELM_ARGS=$1
@@ -10,15 +10,15 @@ eval "ARRAY=($HELM_ARGS)"
 if [ "$value" == '-f' ]; then
     export FILES="$FILES ${ARRAY[$i + 1]}"
   elif [[ "$value" == applicationName=* ]]; then
-     export readonly APPLICATION_NAME=$(echo "$value" | sed 's/applicationName=//g')
+    export readonly APPLICATION_NAME=$(echo "$value" | sed 's/applicationName=//g')
     echo "$APPLICATION_NAME"
     exit 0
   elif [[ "$value" == application.name=* ]]; then
-     export readonly APPLICATION_NAME=$(echo "$value" | sed 's/application.name=//g')
+    export readonly APPLICATION_NAME=$(echo "$value" | sed 's/application.name=//g')
     echo "$APPLICATION_NAME"
     exit 0
   fi
- done
+done
 
 eval "FILEARRAY=($FILES)"
 
