@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC1072,SC1073,SC1064
 set -e
 export REPOSITORY="$(eval "REPO=$INPUT_REPOSITORY" && echo $REPO" | sed 's/\//__/') # Replace '/' with '__', since labels don't support '/'
 
@@ -34,4 +35,4 @@ echo "::set-output name=log_url::$log_url"
 
 HELM_COMMAND_ARRAY="$(eval "echo $INPUT_HELM_COMMAND")"
 declare -a 'HELM_ARGS_ARRAY=('("$INPUT_HELM_ARGS")')
-helm "$HELM_COMMAND_ARRAY[@]" "$HELM_ARGS_ARRAY[@]"
+helm "${helm_command_array[@]}" "${helm_args_array[@]}" 
