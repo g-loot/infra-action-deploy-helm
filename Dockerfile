@@ -3,7 +3,7 @@ FROM google/cloud-sdk:alpine
 ENV XDG_DATA_HOME=/helm3home
 
 # Install openssl
-RUN apk add --no-cache openssl=1.1.1b-r1 && \
+RUN apk add --no-cache openssl-dev==1.1.1g-r0 && \
     rm -rf /var/cache/apk/*
 # Install Helm
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
