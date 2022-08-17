@@ -1,7 +1,7 @@
 #!/bin/bash
 # shellcheck disable=SC1072,SC1073,SC1064,SC1078,SC1009,SC1079,SC2155,SC2034
 set -e
-export REPOSITORY="$(eval "REPO=$INPUT_REPOSITORY" && echo $REPO | sed 's/\//__/')" # Replace '/' with '__', since labels don't support '/'
+export REPOSITORY=$(eval "REPO=$INPUT_REPOSITORY" && echo "$REPO" | sed 's/\//__/') # Replace '/' with '__', since labels don't support '/'
 
 echo "----- Helm Info -----"
 echo "Project: $INPUT_PROJECT"
@@ -27,12 +27,10 @@ gcloud container clusters get-credentials "$INPUT_CLUSTER" --zone "$INPUT_ZONE" 
 export RELEASE_NAME=$(/applicationName.sh "$INPUT_HELM_ARGS")
 echo "Release name: $RELEASE_NAME"
 
-timestamp="$(date -d@"$(( $(date+%s)+300))" '+%FT%T.3Z')"
+timestamp="$(date -d@"$(($(date+%s) + 300))" '+%FT%T.3Z')"
 log_url="https://console.cloud.google.com/logs/query;query=resource.labels.project_id%3D%22$INPUT_PROJECT%22%0Aresource.labels.location%3D%22$INPUT_ZONE%22%0Aresource.labels.cluster_name%3D%22$INPUT_CLUSTER%22%0A%22$RELEASE_NAME%22;cursorTimestamp=$timestamp?project=$INPUT_PROJECT"
 echo "GCP logs:  $log_url"
 echo "::set-output name=log_url::$log_url"
-
-
 HELM_COMMAND_ARRAY="$(eval "echo $INPUT_HELM_COMMAND")"
 declare -a 'HELM_ARGS_ARRAY'="${INPUT_HELM_ARGS}"
 helm "${HELM_COMMAND_ARRAY[@]}" "${HELM_ARGS_ARRAY[@]}"
