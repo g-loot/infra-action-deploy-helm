@@ -30,7 +30,6 @@ eval "FILEARRAY=($FILES)"
 if [ ${#FILEARRAY[@]} = 0 ]; then
   echo "NO APPLICATION_NAME :("
   exit 1
-fi
 
 # If more than one values file, reverse the order and merge them in a temporary file.
 if [ ${#FILEARRAY[@]} -gt 1 ]; then
@@ -39,8 +38,6 @@ if [ ${#FILEARRAY[@]} -gt 1 ]; then
   VALUES="tmp.yaml"
 else
   VALUES=$FILES
-fi  
-
 # Check if new or old naming convention exists.
 OLD_NAME="$(cat "$VALUES" | yq r - applicationName)"
 NEW_NAME="$(cat "$VALUES" | yq r - application.name)"
