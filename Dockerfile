@@ -3,7 +3,7 @@ FROM google/cloud-sdk:alpine
 ENV XDG_DATA_HOME=/helm3home
 
 # Install openssl
-RUN apk upgrade --update-cache --available && \ 
+RUN apk upgrade --update-cache --available && \
     apk add openssl=1.1.1q-r0 && \
     rm -rf /var/cache/apk/*
 # Install Helm
