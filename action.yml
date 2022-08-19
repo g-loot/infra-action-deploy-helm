@@ -38,7 +38,7 @@ outputs:
     description: 'URL to GCP logs'
 runs:
   using: 'docker'
-  image: 'docker://gcr.io/gloot-automation/action-deploy-helm:1.3.14-beta.10'
+  image: 'docker://gcr.io/gloot-automation/action-deploy-helm:1.3.14-beta.12'
   args:
     - ${{ inputs.gcp_key }}
     - ${{ inputs.gcp_key }}
