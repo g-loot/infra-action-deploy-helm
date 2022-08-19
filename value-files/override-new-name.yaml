@@ -1,2 +1,2 @@
 application:
-    name: "github-action-helm-test-multiple-files"
+  name: "github-action-helm-test-multiple-files"
