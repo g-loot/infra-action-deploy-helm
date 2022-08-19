@@ -10,6 +10,6 @@ ports:
     protocol: TCP
 
 probe:
-    httpGet:
+  httpGet:
     path: /
     port: 80
