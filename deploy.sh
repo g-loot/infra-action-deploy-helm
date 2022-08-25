@@ -16,7 +16,7 @@ echo "-----"
 
 # Temporary fix git permission issue
 # https://github.com/actions/runner/issues/2033
-# 
+# https://gloot.atlassian.net/browse/GL-3833
 chown -R $(id -u):$(id -g) $PWD
 
 echo "$INPUT_GCP_KEY" | base64 -d > /tmp/google_credentials.json
