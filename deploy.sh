@@ -14,6 +14,9 @@ echo "Helm Command: $INPUT_HELM_COMMAND"
 echo "Helm Args: $INPUT_HELM_ARGS"
 echo "-----"
 
+# Temporary fix git permission issue
+chown -R $(id -u):$(id -g) $PWD
+
 echo "$INPUT_GCP_KEY" | base64 -d > /tmp/google_credentials.json
 gcloud auth activate-service-account --key-file /tmp/google_credentials.json
 
