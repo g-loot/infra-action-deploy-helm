@@ -22,7 +22,7 @@ inputs:
     default: 'oci://gcr.io/gloot-automation/gloot-chart/gloot-application'
   oci_chart_version:
     required: true
-    default: '0.0.0-latest'  
+    default: '1.6.55'  
   helm_version:
     required: true
     default: '3.9.0'
