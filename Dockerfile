@@ -28,7 +28,7 @@ WORKDIR /github/workspace/
 # Temporary fix git permission issue
 # https://github.com/actions/runner/issues/2033
 # https://gloot.atlassian.net/browse/GL-3833
-RUN chown -R $(id -u):$(id -g) $PWD
-RUN chmod 777 -R $PWD
+#RUN chown -R $(id -u):$(id -g) $PWD
+#RUN chmod 777 -R $PWD
 
 ENTRYPOINT [ "/deploy.sh" ]
