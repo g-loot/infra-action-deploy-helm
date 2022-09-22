@@ -19,7 +19,7 @@ inputs:
     default: "$GITHUB_REPOSITORY"
   oci_helm_repo:
     required: true
-    default: 'oci://gcr.io/gloot-automation/gloot-chart/gloot-application'
+    default: 'oci://eu.gcr.io/gloot-automation/gloot-chart/gloot-application'
   oci_chart_version:
     required: true
     default: '1.6.58'
@@ -38,7 +38,7 @@ outputs:
     description: 'URL to GCP logs'
 runs:
   using: 'docker'
-  image: 'docker://gcr.io/gloot-automation/action-deploy-helm:latest'
+  image: 'docker://eu.gcr.io/gloot-automation/action-deploy-helm:latest'
   args:
     - ${{ inputs.gcp_key }}
     - ${{ inputs.gcp_key }}
