@@ -22,10 +22,10 @@ inputs:
     default: 'oci://eu.gcr.io/gloot-automation/gloot-chart/gloot-application'
   oci_chart_version:
     required: true
-    default: '1.11.1-beta.1'
+    default: '1.11.3'
   helm_version:
     required: true
-    default: '3.9.0'
+    default: '3.11.2'
   helm_args:
     description: 'should look something like this: "-f /files/values.yaml --set image.tag=latest"'
     required: true
