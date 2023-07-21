@@ -43,7 +43,7 @@ jobs:
     name: No file, old naming
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use local Dockerfile
         run: |
           sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
@@ -74,7 +74,7 @@ jobs:
     name: Single-file, old naming
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use local Dockerfile
         run: |
           sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
@@ -96,7 +96,7 @@ jobs:
     name: Single-file, new naming
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use local Dockerfile
         run: |
           sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
@@ -118,7 +118,7 @@ jobs:
     name: Multiple-files, new naming
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use local Dockerfile
         run: |
           sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
