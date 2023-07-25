@@ -9,7 +9,7 @@ jobs:
     name: No file, new naming
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use local Dockerfile
         run: |
           sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
@@ -17,7 +17,7 @@ jobs:
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          helm_version: 3.9.0
+          helm_version: 3.11.2
           helm_args: >
             --set ports[0].name=http
             --set ports[0].port=9028
@@ -35,7 +35,7 @@ jobs:
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          helm_version: 3.9.0
+          helm_version: 3.11.2
           helm_args: ""
           helm_command: delete github-action-helm-test-no-file
   no-file-old-name:
@@ -43,7 +43,7 @@ jobs:
     name: No file, old naming
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use local Dockerfile
         run: |
           sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
@@ -51,7 +51,7 @@ jobs:
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          helm_version: 3.9.0
+          helm_version: 3.11.2
           helm_args: >
             --set ports[0].name=http
             --set ports[0].port=9028
@@ -66,7 +66,7 @@ jobs:
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          helm_version: 3.9.0
+          helm_version: 3.11.2
           helm_args: ""
           helm_command: delete github-action-helm-test-no-file-old
   single-file-old-name:
@@ -74,7 +74,7 @@ jobs:
     name: Single-file, old naming
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use local Dockerfile
         run: |
           sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
@@ -82,13 +82,13 @@ jobs:
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          helm_version: 3.9.0
+          helm_version: 3.11.2
           helm_args: "-f value-files/old-name.yaml --set image.tag=latest"
       - name: Purge test application
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          helm_version: 3.9.0
+          helm_version: 3.11.2
           helm_args: ""
           helm_command: "delete github-action-helm-test-single-file-old"
   single-file-new-name:
@@ -96,7 +96,7 @@ jobs:
     name: Single-file, new naming
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use local Dockerfile
         run: |
           sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
@@ -104,13 +104,13 @@ jobs:
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          helm_version: 3.9.0
+          helm_version: 3.11.2
           helm_args: "-f value-files/new-name.yaml --set image.tag=latest"
       - name: Purge test application
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          helm_version: 3.9.0
+          helm_version: 3.11.2
           helm_args: ""
           helm_command: "delete github-action-helm-test-single-file"
   multiple-files-new-name:
@@ -118,7 +118,7 @@ jobs:
     name: Multiple-files, new naming
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use local Dockerfile
         run: |
           sed -i 's^docker://gcr.io/gloot-automation/action-deploy-helm:latest^Dockerfile^g' action.yml
@@ -126,12 +126,12 @@ jobs:
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          helm_version: 3.9.0
+          helm_version: 3.11.2
           helm_args: "-f value-files/new-name.yaml -f value-files/override-new-name.yaml --set image.tag=latest"
       - name: Purge test application
         uses: ./
         with:
           gcp_key: ${{ secrets.GCP_KEY }}
-          helm_version: 3.9.0
+          helm_version: 3.11.2
           helm_args: ""
           helm_command: "delete github-action-helm-test-multiple-files"
